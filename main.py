@@ -51,5 +51,6 @@ headers = {
 response = requests.get(url, params=params, headers=headers)
 data = response.json()
 
-for real_estate_property in data:
-    print(real_estate_property)
+for real_estate_property in data["results"]:
+    print(f"Processing: {real_estate_property["address"]["street"] + " " + real_estate_property["address"]["sal"]}")
+    print(f"At " + real_estate_property.get("coordinates"))
