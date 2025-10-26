@@ -24,7 +24,8 @@ def is_point_in_feature(lon, lat, file_path):
     for feature in feature_generator(file_path):
         geom = shape(feature['geometry'])
         if geom.contains(point):
-            print("Found it on the {}th".format(counter))
+            print("Found it on the {}th run!".format(counter))
+            print(f"House's dimensions are: {feature}")
             return True
         counter = counter + 1
     return False
@@ -53,4 +54,6 @@ data = response.json()
 
 for real_estate_property in data["results"]:
     print(f"Processing: {real_estate_property["address"]["street"] + " " + real_estate_property["address"]["sal"]}")
-    print(f"At " + real_estate_property.get("coordinates"))
+    print(f"At " + json.dumps(real_estate_property.get("coordinates")))
+    is_point_in_feature(real_estate_property.get("coordinates")["longitude"], real_estate_property.get("coordinates")["latitude"], './data/Australia.geojson')
+    
