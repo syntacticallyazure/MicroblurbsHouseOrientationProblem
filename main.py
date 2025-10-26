@@ -2,6 +2,7 @@ import ijson
 import json
 
 #probably make this a .env
+# https://www.kaggle.com/datasets/joebeachcapital/australia-building-footprints
 DATA_FILE = './data/Australia.geojson'
 
 def feature_generator(file_path):
@@ -25,18 +26,10 @@ def is_point_in_feature(lon, lat, file_path):
         geom = shape(feature['geometry'])
         if geom.contains(point):
             print("Found it on the {}th run!".format(counter))
-            print(f"House's dimensions are: {feature}")
+            print(f"House's plot points are: {feature}")
             return True
         counter = counter + 1
     return False
-
-
-# # Example usage
-# lon, lat = 151.67272249, -33.01402088  # Sydney coordinates
-# if is_point_in_feature(lon, lat, './data/Australia.geojson'):
-#     print("Point is inside a shape!")
-# else:
-#     print("Point is outside all shapes.")
 
 import requests
 
@@ -54,6 +47,6 @@ data = response.json()
 
 for real_estate_property in data["results"]:
     print(f"Processing: {real_estate_property["address"]["street"] + " " + real_estate_property["address"]["sal"]}")
-    print(f"At " + json.dumps(real_estate_property.get("coordinates")))
+    print(f"At provided long/lat: " + json.dumps(real_estate_property.get("coordinates")))
     is_point_in_feature(real_estate_property.get("coordinates")["longitude"], real_estate_property.get("coordinates")["latitude"], './data/Australia.geojson')
-    
+    break
